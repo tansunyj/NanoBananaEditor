@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { Button } from './ui/Button';
-import { History, Download, Image as ImageIcon, Layers } from 'lucide-react';
+import { History, Download, Image as ImageIcon } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ImagePreviewModal } from './ImagePreviewModal';
 

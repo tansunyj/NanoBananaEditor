@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Stage, Layer, Image as KonvaImage, Line } from 'react-konva';
+import Konva from 'konva';
+import { KonvaEventObject } from 'konva/lib/Node';
 import { useAppStore } from '../store/useAppStore';
 import { Button } from './ui/Button';
 import { ZoomIn, ZoomOut, RotateCcw, Download, Eye, EyeOff, Eraser } from 'lucide-react';
@@ -23,7 +25,7 @@ export const ImageCanvas: React.FC = () => {
     setBrushSize
   } = useAppStore();
 
-  const stageRef = useRef<any>(null);
+  const stageRef = useRef<Konva.Stage>(null);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
   const [isDrawing, setIsDrawing] = useState(false);
@@ -77,12 +79,11 @@ export const ImageCanvas: React.FC = () => {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  const handleMouseDown = (e: any) => {
+  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     if (selectedTool !== 'mask' || !image) return;
     
     setIsDrawing(true);
     const stage = e.target.getStage();
-    const pos = stage.getPointerPosition();
     
     // Use Konva's getRelativePointerPosition for accurate coordinates
     const relativePos = stage.getRelativePointerPosition();
@@ -101,11 +102,10 @@ export const ImageCanvas: React.FC = () => {
     }
   };
 
-  const handleMouseMove = (e: any) => {
+  const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
     if (!isDrawing || selectedTool !== 'mask' || !image) return;
     
     const stage = e.target.getStage();
-    const pos = stage.getPointerPosition();
     
     // Use Konva's getRelativePointerPosition for accurate coordinates
     const relativePos = stage.getRelativePointerPosition();

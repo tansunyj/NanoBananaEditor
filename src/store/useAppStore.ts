@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { Project, Generation, Edit, SegmentationMask, BrushStroke } from '../types';
+import { Project, Generation, Edit, BrushStroke } from '../types';
 
 interface AppState {
   // Current project
@@ -74,7 +74,7 @@ interface AppState {
 
 export const useAppStore = create<AppState>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       currentProject: null,
       canvasImage: null,

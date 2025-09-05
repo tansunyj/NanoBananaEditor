@@ -1,0 +1,17 @@
+name = "nano-banana-editor"
+compatibility_date = "2024-01-01"
+
+[build]
+command = "npm run build"
+publish = "dist"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[env.production]
+# 这些环境变量需要在 Cloudflare Pages 仪表板中设置
+# VITE_API_BASE_URL = "https://api.cometapi.com"
+# VITE_GEMINI_API_KEY = "sk-your-comet-api-key"
+# VITE_MODEL_NAME = "gemini-2.5-flash-image-preview"

@@ -7,6 +7,7 @@ import { ImageCanvas } from './components/ImageCanvas';
 import { HistoryPanel } from './components/HistoryPanel';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useAppStore } from './store/useAppStore';
+import { geminiService } from './services/geminiService';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,7 @@ const queryClient = new QueryClient({
 function AppContent() {
   useKeyboardShortcuts();
   
-  const { showPromptPanel, setShowPromptPanel, showHistory, setShowHistory } = useAppStore();
+  const { showPromptPanel, setShowPromptPanel, setShowHistory } = useAppStore();
   
   // Set mobile defaults on mount
   React.useEffect(() => {
@@ -36,6 +37,24 @@ function AppContent() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, [setShowPromptPanel, setShowHistory]);
+
+  // 在开发模式下显示API配置调试信息
+  React.useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.log('🏠 Nano Banana Editor - 开发模式启动');
+      console.log('🔥 当前环境变量:');
+      console.log('   VITE_GEMINI_API_KEY:', import.meta.env.VITE_GEMINI_API_KEY ? '✅ 已配置' : '❌ 未配置');
+      console.log('   VITE_API_TOKEN:', import.meta.env.VITE_API_TOKEN ? '✅ 已配置' : '❌ 未配置');
+      console.log('   VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL || '使用默认值');
+      console.log('   VITE_MODEL_NAME:', import.meta.env.VITE_MODEL_NAME || '使用默认值');
+      
+      // 显示 GeminiService 配置状态
+      geminiService.debugConfig();
+      
+      console.log('📝 如果你看到这些信息，说明环境变量已正确加载！');
+      console.log('📝 API调用时会显示更多详细的认证信息...');
+    }
+  }, []);
 
   return (
     <div className="h-screen bg-gray-900 text-gray-100 flex flex-col font-sans">

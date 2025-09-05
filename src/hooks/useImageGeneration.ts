@@ -17,7 +17,7 @@ export const useImageGeneration = () => {
     },
     onSuccess: (images, request) => {
       if (images.length > 0) {
-        const outputAssets: Asset[] = images.map((base64, index) => ({
+        const outputAssets: Asset[] = images.map((base64) => ({
           id: generateId(),
           type: 'output',
           url: `data:image/png;base64,${base64}`,
@@ -43,7 +43,7 @@ export const useImageGeneration = () => {
             width: 1024,
             height: 1024,
             checksum: request.referenceImages[0].slice(0, 32)
-          }] : request.referenceImages ? request.referenceImages.map((img, index) => ({
+          }] : request.referenceImages ? request.referenceImages.map((img) => ({
             id: generateId(),
             type: 'original' as const,
             url: `data:image/png;base64,${img}`,
@@ -95,6 +95,7 @@ export const useImageEditing = () => {
     setCanvasImage, 
     canvasImage, 
     editReferenceImages,
+    uploadedImages,
     brushStrokes,
     selectedGenerationId,
     currentProject,
@@ -219,7 +220,7 @@ export const useImageEditing = () => {
     },
     onSuccess: ({ images, maskedReferenceImage }, instruction) => {
       if (images.length > 0) {
-        const outputAssets: Asset[] = images.map((base64, index) => ({
+        const outputAssets: Asset[] = images.map((base64) => ({
           id: generateId(),
           type: 'output',
           url: `data:image/png;base64,${base64}`,

@@ -50,7 +50,7 @@ A production-ready React + TypeScript application for delightful image generatio
 
 ### Prerequisites
 - Node.js 18+ 
-- A [Google AI Studio](https://aistudio.google.com/) API key
+- 一个AI图像生成API密钥（支持Google Gemini、OpenAI、Azure OpenAI等）
 
 ### Installation
 
@@ -64,15 +64,25 @@ A production-ready React + TypeScript application for delightful image generatio
 2. **Configure environment**:
    ```bash
    cp .env.example .env
-   # Add your Gemini API key to VITE_GEMINI_API_KEY
+   # 编辑.env文件，配置以下环境变量：
+   # VITE_GEMINI_API_KEY=your_api_key_here
+   # VITE_API_BASE_URL=your_api_base_url (可选)
+   # VITE_MODEL_NAME=your_model_name (可选)
    ```
 
-3. **Start development server**:
+3. **验证配置**:
    ```bash
-   npm run dev
+   npm run check-config
    ```
 
-4. **Open in browser**: Navigate to `http://localhost:5173`
+4. **Start development server**:
+   ```bash
+   npm run start    # 自动检查配置并启动
+   # 或者
+   npm run dev      # 直接启动（跳过配置检查）
+   ```
+
+5. **Open in browser**: Navigate to `http://localhost:5173`
 
 ## 🎯 Usage Guide
 
@@ -146,9 +156,56 @@ src/
 
 ## 🔧 Configuration
 
-### Environment Variables
+### 环境变量配置
+
+必需配置：
 ```bash
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
+# API密钥
+VITE_GEMINI_API_KEY=your_api_key_here
+```
+
+可选配置：
+```bash
+# API基础地址（默认：Google Gemini）
+VITE_API_BASE_URL=https://generativelanguage.googleapis.com
+
+# 模型名称（默认：gemini-2.5-flash-image-preview）
+VITE_MODEL_NAME=gemini-2.5-flash-image-preview
+```
+
+### 🎯 多API提供商支持
+
+#### Google Gemini (默认)
+```bash
+VITE_API_BASE_URL=https://generativelanguage.googleapis.com
+VITE_GEMINI_API_KEY=your_google_api_key
+VITE_MODEL_NAME=gemini-2.5-flash-image-preview
+```
+
+#### OpenAI DALL-E
+```bash
+VITE_API_BASE_URL=https://api.openai.com
+VITE_GEMINI_API_KEY=your_openai_api_key
+VITE_MODEL_NAME=dall-e-3
+```
+
+#### Azure OpenAI
+```bash
+VITE_API_BASE_URL=https://your-resource.openai.azure.com
+VITE_GEMINI_API_KEY=your_azure_api_key
+VITE_MODEL_NAME=your_deployment_name
+```
+
+#### 自定义API提供商
+```bash
+VITE_API_BASE_URL=https://your-custom-api.com
+VITE_GEMINI_API_KEY=your_custom_api_key
+VITE_MODEL_NAME=your_custom_model
+```
+
+### 配置验证
+```bash
+npm run check-config  # 验证环境配置
 ```
 
 ### Model Configuration
@@ -161,10 +218,12 @@ VITE_GEMINI_API_KEY=your_gemini_api_key_here
 
 ### Development
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
+npm run dev          # Start development server
+npm run start        # Check config and start
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+npm run check-config # Verify environment configuration
 ```
 
 ### Production Considerations
